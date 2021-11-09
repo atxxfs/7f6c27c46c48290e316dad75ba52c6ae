@@ -269,7 +269,7 @@ class QQTSpriteFrame(object):
             return QQTSpriteFrame(frame_metadata, QQTRGB565WithAlphaChannelAtTheEndImage.from_buffer(source, offset))
         elif frame_metadata.mode == 8:
             return QQTSpriteFrame(frame_metadata, QQTRGB32Image.from_buffer(source, offset))
-        elif frame_metadata.mode == 16:  # RGB24
+        elif frame_metadata.mode == 16:
             return QQTSpriteFrame(frame_metadata, QQTRGB24Image.from_buffer(source, offset))
         else:
             raise AssertionError("error format because mode is " + str(frame_metadata.mode))
