@@ -264,7 +264,6 @@ class QQTSpriteFrame(object):
         offset += QQT_SPRITE_FRAME_METADATA_SIZE
         assert frame_metadata.magic == 0
         if frame_metadata.mode == 0:
-            # raise AssertionError("error format because mode is 0")
             return QQTSpriteFrame(frame_metadata, QQTEmptyImage())
         elif frame_metadata.mode == 3 or frame_metadata.mode == 285212672:
             return QQTSpriteFrame(frame_metadata, QQTRGB565WithAlphaChannelAtTheEndImage.from_buffer(source, offset))
