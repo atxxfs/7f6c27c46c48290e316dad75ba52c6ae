@@ -304,6 +304,14 @@ class QQTSprite(object):
         self._metadata = metadata
         self._frames = frames
 
+    @functools.cached_property
+    def instance_size(self):
+        size = QQT_SPRITE_METADATA_SIZE
+        for frames_per_direction in self._frames:
+            for frame in frames_per_direction:
+                size += frame.instance_size
+        return size
+
     def save(self, prefix: str):
         for direction, frames_per_direction in enumerate(self._frames):
             for index, frame in enumerate(frames_per_direction):
@@ -330,7 +338,12 @@ class QQTSprite(object):
     def open(cls, filepath: str) -> QQTSprite:
         assert filepath.endswith(".img")
         with open(filepath, "rb") as f:
-            return cls.from_buffer(f.read())
+            f.seek(0, os.SEEK_END)
+            file_length = f.tell()
+            f.seek(0, os.SEEK_SET)
+            sprite = cls.from_buffer(f.read())
+            assert file_length == sprite.instance_size
+            return sprite
 
 
 def convert_img_file_to_png(img_file_path, output_path_prefix):
